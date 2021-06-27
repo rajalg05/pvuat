@@ -1,0 +1,317 @@
+<p-toast></p-toast>
+<!-- <div class="container"> -->
+    <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- firstName -->
+                    <label for="firstName">First Name: <span class="lblError">*</span></label>
+
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="firstName" placeholder="First Name" class="form-control"
+                        formControlName="firstName">
+                    <p class="lblError" *ngIf="resourceForm.get('firstName').hasError('required')
+                          && !resourceForm.get('firstName').pristine">
+                        First Name is Required
+                    </p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- lastName -->
+                    <label for="lastName">Last Name: <span class="lblError">*</span></label>
+
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="lastName" placeholder="Last Name" class="form-control"
+                        formControlName="lastName">
+                    <p class="lblError" *ngIf="resourceForm.get('lastName').hasError('required')
+                          && !resourceForm.get('lastName').pristine">
+                        Last Name is Required
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="email">E-mail: <span class="lblError">*</span></label>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="email" placeholder="E-mail" class="form-control" formControlName="email">
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('email').hasError('required') && !resourceForm.get('email').pristine">
+                        Please provide your E-mail
+                    </p>
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('email').hasError('email') && !resourceForm.get('email').pristine">
+                        E-mail is Invalid</p>
+                </div>
+            </div>
+            <div class="col-1">
+                <label for="phone">WhatsApp Number * <span class="lblError"></span></label>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <ngx-intl-tel-input  
+                        [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
+                        [enableAutoCountrySelect]="false" [enablePlaceholder]="false" [searchCountryFlag]="true"
+                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                        [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India" [maxLength]="15"
+                        [phoneValidation]="false" name="phone" formControlName="phone"></ngx-intl-tel-input> 
+                    <div *ngIf="resourceForm.get('phone').errors" class="invalid-feedback">
+                        <div *ngIf="resourceForm.get('phone').errors.required">Phone is required</div>
+                        <div *ngIf="resourceForm.get('phone').errors.minlength">Phone must be at least 10 numbers.
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- E-mail -->
+                    <label for="firstKycId">Adhar: <span class="lblError">*</span></label>
+
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="firstKycId" placeholder="Adhar Id" class="form-control"
+                        formControlName="firstKycId">
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('firstKycId').hasError('required') && !resourceForm.get('adharId').pristine">
+                        Please provide your Adhar Id
+                    </p>
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('firstKycId').hasError('adharId') && !resourceForm.get('adharId').pristine">
+                        Adhar Id is Invalid</p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="secondKycId">PAN: <span class="lblError">*</span></label>
+
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="secondKycId" placeholder="PAN" class="form-control"
+                        formControlName="secondKycId">
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('secondKycId').hasError('required') && !resourceForm.get('adharId').pristine">
+                        Please provide your PAN
+                    </p>
+                    <p class="lblError"
+                        *ngIf="resourceForm.get('secondKycId').hasError('adharId') && !resourceForm.get('adharId').pristine">
+                        PAN is Invalid</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="adhar">Aadhar (Add Front and back Side) * <span class="lblError"></span></label>
+                </div>
+
+            </div>
+            <div class="col-5">
+                <div class="uploadfilecontainer" (click)="adharFileInput.click()" appDragDrop
+                    (onFileDropped)="uploadAdharFile($event)">
+                    <input hidden type="file" #adharFileInput (change)="uploadAdharFile($event.target.adharFiles)">
+                </div>
+                <div class="files-list" *ngFor="let file of adharFiles;let i= index">
+                    <p> {{ file }} </p>
+                    <button class="delete-file" (click)="deleteAdharAttachment(i)">
+                        <img src="../../assets/Full_Recycle_Bin.png">
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="pan">PAN(Front side) * <span class="lblError"></span></label>
+                </div>
+
+            </div>
+            <div class="col-5">
+                <div class="uploadfilecontainer" (click)="panFileInput.click()" appDragDrop
+                    (onFileDropped)="uploadPanFile($event)">
+                    <input hidden type="file" #panFileInput (change)="uploadPanFile($event.target.panFiles)">
+                </div>
+                <div class="files-list" *ngFor="let file of panFiles;let i= index">
+                    <p> {{ file }} </p>
+                    <button class="delete-file" (click)="deletePanAttachment(i)">
+                        <img src="../../assets/Full_Recycle_Bin.png">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <!-- <div class="form-check form-check-inline col-1">
+                <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="col-1">
+                <input type="radio" id="genderMale" class="form-check-input" formControlName="gender" value="Male">
+            </div>
+            <div class="form-check form-check-inline col-1">
+                <label class="form-check-label" for="genderFeMale">Female</label>
+            </div>
+            <div class="col-1">
+                <input type="radio" id="genderFemale" class="form-check-input" formControlName="gender" value="Female">
+            </div> -->
+            <div class="col-1">
+                <label for="paymentType">Payment Type : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="payments" formControlName="paymentType" optionLabel="label" optionValue="value"
+                    filter="true" placeholder="Payment Type"  filter="false"></p-dropdown>
+            </div>
+            <div class="col-1">
+                <label for="paymentAmount">Payment Amount : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="paymentAmount" class="form-control" formControlName="paymentAmount">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Address Line1: <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="addressLine1" placeholder="Address Line1" class="form-control"
+                        formControlName="addressLine1">
+                    <p class="lblError" *ngIf="resourceForm.get('addressLine1').hasError('required')
+                              && !resourceForm.get('addressLine1').pristine">
+                        Address Line 1 is Required
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-1">
+                <label for="username">Address Line2: <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="streetAddress2" placeholder="Address Line2" class="form-control"
+                    formControlName="streetAddress2">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">City : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="cities" formControlName="city" optionLabel="label" optionValue="value"
+                    filter="true" placeholder="Select a City"></p-dropdown>
+            </div>
+            <div class="col-1">
+                <label for="username">State : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="state" placeholder="State" class="form-control" formControlName="state">
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Zip : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="postalCode" placeholder="Postal/Zip Code" class="form-control"
+                    formControlName="postalCode">
+            </div>
+            <div class="col-1">
+                <label for="username">Country : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="country" placeholder="country" class="form-control" readonly
+                    formControlName="country">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">DOB : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-calendar formControlName="dob" [showIcon]="true" dateFormat="dd/MM/yy" showButtonBar="true"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+            </div>
+            <div class="col-1">
+                <label for="username">Having a Bike<span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="bikes" formControlName="bike" optionLabel="label" optionValue="value"
+                    filter="true" placeholder="-Select-"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Qualification<span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="qualifications" formControlName="qualification" optionLabel="label"
+                    optionValue="value" filter="true" placeholder="-Select-"></p-dropdown>
+            </div>
+            <div class="col-1">
+                <label for="username">Excel Skills<span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="excelSkills" formControlName="excelSkill" optionLabel="label" optionValue="value"
+                    filter="true" placeholder="-Select-"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Stock Audit Experience<span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="stockAuditExps" formControlName="stockAuditExp" optionLabel="label"
+                    optionValue="value" filter="true" placeholder="-Select-"></p-dropdown>
+            </div>
+            <div class="col-1">
+                <label for="username">TL/ Non TL<span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="tlNonTls" formControlName="tlNonTl" optionLabel="label" optionValue="value"
+                    filter="true" placeholder="-Select-"></p-dropdown>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" [disabled]="resourceForm.invalid">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" 
+                        (click)="reviewDialog()">
+                        Review
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" (click)="reset($event)" >
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+<!-- </div> -->

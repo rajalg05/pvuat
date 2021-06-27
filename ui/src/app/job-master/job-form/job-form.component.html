@@ -1,0 +1,282 @@
+<p-toast></p-toast>
+<!-- <div class="container"> -->
+    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+ 
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="jobName">Job Name: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="jobName" placeholder="Job Name" class="form-control"
+                        formControlName="jobName" (focusout)="handleDuplicateJob($event.target.value)">
+                    <p class="lblError" *ngIf="jobForm.get('jobName').hasError('required')
+                          && !jobForm.get('jobName').pristine">
+                        Job Name is Required
+                    </p>
+                    <p class="lblError" *ngIf="jobNameDuplicate">
+                        The job name entered is Duplicate!!
+                  </p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group"> 
+                    <label for="clientName">Client Name: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="clientName" placeholder="Client Name" class="form-control"
+                        formControlName="clientName">
+                    <p class="lblError" *ngIf="jobForm.get('clientName').hasError('required')
+                          && !jobForm.get('clientName').pristine">
+                          Client Name is Required
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="frequencyOfAudit">Frequency of Audit: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="frequencyOfAudit" placeholder="Frequency of Audit" class="form-control"
+                        formControlName="frequencyOfAudit">
+                    <p class="lblError" *ngIf="jobForm.get('frequencyOfAudit').hasError('required')
+                          && !jobForm.get('frequencyOfAudit').pristine">
+                          Frequency of Audit is Required
+                    </p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                   
+                    <label for="paymentType">Payment Type: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="paymentType" placeholder="Payment Type" class="form-control"
+                        formControlName="paymentType">
+                    <p class="lblError" *ngIf="jobForm.get('paymentType').hasError('required')
+                          && !jobForm.get('paymentType').pristine">
+                          Payment Type is Required
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="totalPayment">Total Payment: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="totalPayment" placeholder="Total Payment" class="form-control"
+                        formControlName="totalPayment">
+                    <p class="lblError" *ngIf="jobForm.get('totalPayment').hasError('required')
+                          && !jobForm.get('totalPayment').pristine">
+                          Total Payment is Required
+                    </p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="resourcesNeeded">Resources Needed: <span class="lblError">*</span></label>
+                   
+                </div>
+            </div> 
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="resourcesNeeded" placeholder="Resources Needed" class="form-control"
+                        formControlName="resourcesNeeded">
+                    <p class="lblError" *ngIf="jobForm.get('resourcesNeeded').hasError('required')
+                          && !jobForm.get('resourcesNeeded').pristine">
+                          Resources Needed is Required
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+            <p style="color: white">Please Wait. </p>  
+            </ngx-spinner>   
+        <!-- <div *ngIf="job != null && job.auditOrJob == 'Audit'">
+            <div class="form-row">
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="dateOfAudit">Date of Audit: <span class="lblError">*</span></label>
+                        
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls"> 
+                        <p-calendar formControlName="dateOfAudit" [showIcon]="true" dateFormat="dd/MM/yy" showButtonBar="true"
+                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+                        <p class="lblError" *ngIf="jobForm.get('dateOfAudit').hasError('required')
+                              && !jobForm.get('dateOfAudit').pristine">
+                              Date Of Audit is Required
+                        </p>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="auditName">Audit Name: <span class="lblError">*</span></label>
+                       
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="auditName" placeholder="Audit Name" class="form-control"
+                            formControlName="auditName" (focusout)="handleInput($event.target.value)">
+                        <p class="lblError" *ngIf="jobForm.get('auditName').hasError('required')
+                              && !jobForm.get('auditName').pristine">
+                              Audit Name is Required
+                        </p>
+                        <p class="lblError" *ngIf="auditNameDuplicate">
+                              Audit Name Entered for the job <b>{{job.jobName}}</b> is Duplicate!!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="paymentReceived">Payment Received: <span class="lblError">*</span></label>
+                       
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="paymentReceived" placeholder="Payment Received" class="form-control"
+                            formControlName="paymentReceived">
+                        <p class="lblError" *ngIf="jobForm.get('paymentReceived').hasError('required')
+                              && !jobForm.get('paymentReceived').pristine">
+                              Payment Received is Required
+                        </p>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">Address Line1: <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="addressLine1" placeholder="Address Line1" class="form-control"
+                            formControlName="addressLine1">
+                        <p class="lblError" *ngIf="jobForm.get('addressLine1').hasError('required')
+                                  && !jobForm.get('addressLine1').pristine">
+                            Address Line 1 is Required
+                        </p>
+    
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label for="username">Address Line2: </label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="streetAddress2" placeholder="Address Line2" class="form-control"
+                        formControlName="streetAddress2">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">City : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <p-dropdown [options]="cities" formControlName="city" optionLabel="label" optionValue="value"
+                        filter="true" placeholder="Select a City"></p-dropdown>
+                </div>
+                <div class="col-1">
+                    <label for="username">State : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="state" placeholder="State" class="form-control" formControlName="state">
+                </div>
+    
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">Zip : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="postalCode" placeholder="Postal/Zip Code" class="form-control"
+                        formControlName="postalCode">
+                </div>
+                <div class="col-1">
+                    <label for="username">Country : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="country" placeholder="country" class="form-control" readonly
+                        formControlName="country">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-8">
+                    <p-pickList 
+                    [source]="list1" 
+                    [target]="list2" 
+                    sourceHeader="Available Resources" 
+                    targetHeader="Selected Resources"
+                    [dragdrop]="true"
+                    [responsive]="true" 
+                    [sourceStyle]="{'height':'30rem'}" 
+                    [targetStyle]="{'height':'30rem'}" 
+                    filterBy="name"
+                    sourceFilterPlaceholder="Search by name" 
+                    targetFilterPlaceholder="Search by name"
+                        >
+                        <ng-template let-resource pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:right;margin:15px 5px 0 0">
+                                    {{resource.basicContactDetail.firstName}}   {{resource.basicContactDetail.lastName}}
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+                <div class="col-4"></div>
+            </div>
+            
+            
+        </div> -->
+        
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" [disabled]="!jobForm.valid">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" (click)="reviewDialog()">
+                        Review
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" (click)="reset($event)">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+<!-- </div>  -->
+

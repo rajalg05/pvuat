@@ -1,0 +1,24 @@
+<!-- nav -->
+<nav class="navbar navbar-expand " *ngIf="currentUser">
+    <div class="navbar-nav">
+        <app-core></app-core>
+        <a class="nav-item nav-link" (click)="logout()"><i class="fa fa-sign-out" style="font-size:48px;color:red"></i></a>
+    </div>
+</nav>
+
+<!-- main app container -->
+<div class="jumbotron" *ngIf="!currentUser">
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-sm-6 offset-sm-3"> -->
+                <alert></alert>
+                <router-outlet></router-outlet>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+<!-- <div  *ngIf="currentUser">
+    <app-core></app-core>
+</div> -->
+
+

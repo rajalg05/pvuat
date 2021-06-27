@@ -1,0 +1,83 @@
+
+    <div class="container">
+        <form class="form-horizontal">
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="name">Job Name: </label>
+                <div class="col-sm-10">
+                    <p id="jobName" name="jobName">{{job.jobName}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="phone">Client Name: </label>
+                <div class="col-sm-10">
+                    <p id="clientName" name="clientName">{{job.clientName}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="frequencyOfAudit">Frequency Of Audit</label>
+                <div class="col-sm-10">
+                    <p id="frequencyOfAudit" name="frequencyOfAudit">{{job.frequencyOfAudit}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="paymentType">Payment Type:</label>
+                <div class="col-sm-10">
+                    <p id="paymentType" name="paymentType">{{job.paymentType}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="totalPayment">Total Payment:</label>
+                <div class="col-sm-10">
+                    <p id="totalPayment" name="totalPayment">{{job.totalPayment}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="resourcesNeeded">Resources Needed: </label>
+                <div class="col-sm-10">
+                    <p id="resourcesNeeded" name="resourcesNeeded">{{job.resourcesNeeded}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="dob">Date of Audit: </label>
+                <div class="col-sm-10">
+                    <p id="dob" name="dob">{{audit.auditDates}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="auditName">Audit Name: </label>
+                <div class="col-sm-10">
+                    <p id="auditName" name="auditName">{{audit.auditName}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="addressLine1">Address Line1</label>
+                <div class="col-sm-10">
+                    <p id="addressLine1" name="addressLine1">{{audit.address.addressLine1}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="streetAddress2">Street Address2</label>
+                <div class="col-sm-10">
+                    <p id="streetAddress2" name="streetAddress2">{{audit.address.streetAddress2}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="city">City</label>
+                <div class="col-sm-10">
+                    <p id="city" name="city">{{audit.address.city}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="state">State</label>
+                <div class="col-sm-10">
+                    <p id="state" name="state">{{audit.address.state}}
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="control-label col-sm-2" for="postalCode">PostalCode</label>
+                <div class="col-sm-10">
+                    <p id="postalCode" name="postalCode">{{audit.address.postalCode}}
+                </div>
+            </div>
+        </form>
+    </div>

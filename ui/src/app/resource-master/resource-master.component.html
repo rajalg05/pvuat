@@ -1,0 +1,171 @@
+<!-- <div class="container">    
+    <div class="row">    
+      <div class="col-md-8 form-group">    
+        <input type="file" class="form-control" (change)="uploadedFile($event.target.files)" placeholder="Upload file" accept=".xlsx">    
+      </div>    
+    </div>    
+    <div class="row">    
+      <div class="col-md-2 form-group">    
+        <button type="button" class="btn btn-info" (click)="uploadFile()">Upload Excel</button>    
+      </div>    
+    </div>    
+  </div>   -->
+<p-toast></p-toast>
+<!-- <app-search></app-search> -->
+<!-- <div class="p-field p-col-12 p-md-4">
+    <span class="p-float-label p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" id="inputtext-left" pInputText [(ngModel)]="searchValue"> 
+        <label for="inputtext-left">Search</label>
+    </span>
+</div> -->
+<button pButton (click)="addTab()" label="+" type="button" class="p-button-outlined p-button-rounded"></button>
+
+<p-tabView [controlClose]="true" (onClose)="handleClose($event)" (onChange)="handleChange($event)" >
+    <p-tabPanel [closable]="true" [header]="item.header" *ngFor="let item of items; let i = index" [selected]="i == selectedTabIndex">
+        <app-resource-view *ngIf="i == 0" (openExistingResourceTabEmitter)="openExistingResourceTab($event)" [resource]="resource"></app-resource-view>
+        <app-resource-form (tabNameChangeEmit)="tabNameChangeEmit($event)" *ngIf="i != 0" [resource]="resource"></app-resource-form>
+    </p-tabPanel>
+</p-tabView>
+
+<!-- <div class="card">
+   <h5>Advanced</h5>
+   <p-fileUpload name="demo[]" (onSelect)="onUpload($event)" customUpload="true" multiple="multiple"  
+      maxFileSize="100000000">
+      <ng-template pTemplate="content">
+         <ul *ngIf="uploadedFiles && uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+         </ul>
+      </ng-template>
+   </p-fileUpload>
+ 
+</div>
+
+<p-table [value]="_coreService.dataSourceManPower" dataKey="tlPune" editMode="row">
+   <ng-template pTemplate="header">
+      <tr>
+         <th></th>
+         <th>Education</th>
+         <th>Excel_Skills</th>
+         <th>TL_Non_TL</th>
+         <th>City</th>
+         <th>State</th>
+         <th>Frequency</th>
+         <th>TL_Pune</th>
+         <th>TL_Mumbai</th>
+         <th>TL_Others</th>
+         <th>Audit_Status</th>
+      </tr>
+   </ng-template>
+
+   <ng-template pTemplate="body" let-element let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="element">
+         <td style="text-align:center">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(element)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(element)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(element, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+        </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.education">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.education}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.excelSkills">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.excelSkills}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.TLNonTL">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.TLNonTL}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.city">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.city}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.state">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.state}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.frequency">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.frequency}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.tlPune">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.tlPune}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.tlMumbai">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.tlMumbai}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.tlOthers">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.tlOthers}}
+               </ng-template>
+           </p-cellEditor>
+         </td>
+         <td>
+            <p-cellEditor>
+               <ng-template pTemplate="input">
+                   <input pInputText type="text" [(ngModel)]="element.auditStatus">
+               </ng-template>
+               <ng-template pTemplate="output">
+                   {{element.auditStatus}}
+               </ng-template>
+           </p-cellEditor>
+         </td> 
+      </tr>
+   </ng-template>
+ 
+</p-table> -->

@@ -1,0 +1,209 @@
+<!-- <div class="container" style="padding-top: 4px;">  -->
+    <p-table #dt 
+    [value]="audits" 
+    [(selection)]="selectedAudit" 
+    selectionMode="single" 
+    dataKey="id"
+    styleClass="p-datatable-audits" 
+    [rowHover]="true"
+    [rows]="10" 
+    [showCurrentPageReport]="true" 
+    [rowsPerPageOptions]="[10,25,50]" 
+    [loading]="loading"
+    [paginator]="true" 
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [filterDelay]="0" 
+    [globalFilterFields]="['name','country.name','jobName','status']" 
+    (onRowSelect)="onRowSelect($event)"
+    >
+    <ng-template pTemplate="caption">
+        <div class="table-header">
+            Pending Audits
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="      Global Search" />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+           <!--  <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th> -->
+            <th pSortableColumn="jobName">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Job
+                    <p-sortIcon field="jobName"></p-sortIcon>
+                    <p-columnFilter type="text" field="jobName" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="auditName">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Audit
+                    <p-sortIcon field="auditName"></p-sortIcon>
+                    <p-columnFilter type="text" field="auditName" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="dateOfAudit">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Date
+                    <p-sortIcon field="dateOfAudit"></p-sortIcon>
+                    <p-columnFilter type="date" field="dateOfAudit" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="paymentReceived">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Payment Received
+                    <p-sortIcon field="paymentReceived"></p-sortIcon>
+                    <p-columnFilter type="numeric" field="paymentReceived" display="menu" currency="INR" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="address.city">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    City
+                    <p-sortIcon field="address.city"></p-sortIcon>
+                    <p-columnFilter type="text" field="address.city" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="address.streetAddress2">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Location
+                    <p-sortIcon field="address.streetAddress2"></p-sortIcon>
+                    <p-columnFilter type="text" field="address.streetAddress2" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="auditStatus">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Audit Status
+                    <p-sortIcon field="auditStatus"></p-sortIcon>
+                    <p-columnFilter type="text" field="auditStatus" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="auditStatus">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Allocated Resources
+                    <p-sortIcon field="auditStatus"></p-sortIcon>
+                    <p-columnFilter type="text" field="auditStatus" display="menu" class="p-ml-auto"></p-columnFilter>
+                </div>
+            </th>
+            <th style="width: 8rem">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-audit >
+        <tr class="p-selectable-row"  [pSelectableRow]="audit" (click)="allocateResource(audit)"> 
+            <td>
+                {{audit.jobName}}
+            </td>
+            <td>
+                {{audit.auditName}}
+            </td> 
+            
+            <td>
+               <p-dropdown #auditDateDropDown [options]="audit.auditDates" optionValue="code" optionLabel="name" dataKey="code" [(ngModel)]="selectedAuditDate"></p-dropdown> 
+            </td>
+            <td>
+                {{audit.paymentReceived}}
+            </td>
+            <td>
+                {{audit.address.city}}
+            </td>
+            <td>
+                {{audit.address.streetAddress2}}
+            </td>
+            <td>
+                {{audit.auditStatus}}
+            </td>
+            <td>
+                 
+            </td>
+            <td>
+                    <i style="padding-left:10px;" class="fa fa-edit"></i> 
+                    <i style="padding-left:10px;" class="fa fa-trash" (click)="deleteAudit(audit)"></i> 
+                    <!-- <i style="padding-left:10px;" class="fa fa-save" (click)="saveAllocateAuditAndResource(audit)"></i>  -->
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No audits found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+<!-- </div> -->
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-2">
+            <label>Allocated Resources: </label>
+        </div>
+        <div class="col-1">
+             {{allocatedResources}}
+        </div>
+        <div class="col-2">
+            <label>Allocated TLs: </label>
+        </div>
+        <div class="col-1">
+            {{allocatedTLs}}
+        </div>
+        <div class="col-2">
+            <label>Unallocated Resources: </label>
+        </div>
+        <div class="col-1">
+            {{unAllocatedResources}}
+        </div>
+        <div class="col-2">
+            <label>Unallocated TLs: </label>
+        </div>
+        <div class="col-1">
+            {{unAllocatedTLs}}
+        </div>
+    </div>
+</div> -->
+<div class="form-row" *ngIf="showPickList">
+    <div class="col-6">
+        <p-pickList 
+        [source]="sourceList" 
+        [target]="targetList" 
+        sourceHeader="Available Resources" 
+        targetHeader="Selected Resources"
+        [dragdrop]="true"
+        [responsive]="true" 
+        [sourceStyle]="{'height':'30rem'}" 
+        [targetStyle]="{'height':'30rem'}" 
+        filterBy="name"
+        sourceFilterPlaceholder="Search by name" 
+        targetFilterPlaceholder="Search by name"
+        (onMoveToTarget)="onMoveToTarget($event)" 
+        (onMoveToSource)="onMoveToSource($event)"   >
+            <ng-template let-resource pTemplate="item">
+                <div>
+                    <div style="font-size:14px;margin:15px 5px 0 0" [ngClass]="{tl: resource.resourceType == 'TL'}">
+                        {{resource.basicContactDetail.firstName}} {{resource.basicContactDetail.lastName}}
+                        <span class="product-description">, {{resource.resourceType}}</span>
+                        <span class="product-description">, {{resource.qualification}}</span>
+                        <span class="product-description">, Excel Skills : {{resource.excelSkills}}</span>
+                        <span class="product-description">, Stock Audit Exp : {{resource.stockAuditExp}}</span>
+                        <span class="product-description">, Having Bike : {{resource.bike}}</span>
+                    </div>
+                </div>
+            </ng-template>
+        </p-pickList>
+    </div>
+
+    <div>
+        <p>
+            Approved Amount : {{approvedAmount}}
+        </p>     
+        <p>
+            Profit : {{(profit | isNaN) ? '' : profit }}
+        </p>
+        <p *ngFor="let t of targetList">
+            Cost of {{t.basicContactDetail.firstName}} : {{t.paymentAmount}}
+        </p>
+        <p>
+            Profit % : {{(profitPercentage | isNaN) ? '' : profitPercentage }}
+        </p>
+    </div>
+    <!-- <div class="col-6">
+        <p-knob [(ngModel)]="knobValue" [min]="-50" [max]="50" valueColor="SlateGray" rangeColor="MediumTurquoise" [size]="400" readonly="false"></p-knob>
+    </div> -->
+</div>

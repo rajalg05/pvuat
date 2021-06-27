@@ -1,0 +1,9 @@
+<p-toast></p-toast>
+<button pButton (click)="addTab()" label="+" type="button" class="p-button-outlined p-button-rounded"></button>
+
+<p-tabView [controlClose]="true" (onClose)="handleClose($event)" [activeIndex]="selectedTabIndex" (onChange)="handleChange($event)">
+    <p-tabPanel [closable]="true" [header]="item.header" *ngFor="let item of items; let i = index" [selected]="i == selectedTabIndex">
+        <app-associate-view *ngIf="i == 0" (openExistingAssociateTabEmitter)="openExistingAssociateTab($event)" [associate]="associate"></app-associate-view>
+        <app-associate-form (tabNameChangeEmit)="tabNameChangeEmit($event)" *ngIf="i != 0" [associate]="associate"></app-associate-form>
+    </p-tabPanel>
+</p-tabView>

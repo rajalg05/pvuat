@@ -1,0 +1,220 @@
+<!-- <div class="container"> -->
+    <form [formGroup]="associateForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- firstName -->
+                    <label for="firstName">First Name: <span class="lblError">*</span></label>
+                  
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="firstName" placeholder="First Name" class="form-control"
+                        formControlName="firstName">
+                    <p class="lblError" *ngIf="associateForm.get('firstName').hasError('required')
+                          && !associateForm.get('firstName').pristine">
+                        First Name is Required
+                    </p>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- lastName -->
+                    <label for="lastName">Last Name: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="lastName" placeholder="Last Name" class="form-control"
+                        formControlName="lastName">
+                    <p class="lblError" *ngIf="associateForm.get('lastName').hasError('required')
+                          && !associateForm.get('lastName').pristine">
+                        Last Name is Required
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- E-mail -->
+                    <label for="email">E-mail: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="email" placeholder="E-mail" class="form-control"
+                        formControlName="email">
+                    <p class="lblError"
+                        *ngIf="associateForm.get('email').hasError('required') && !associateForm.get('email').pristine">
+                        Please provide your E-mail
+                    </p>
+                    <p class="lblError"
+                        *ngIf="associateForm.get('email').hasError('email') && !associateForm.get('email').pristine">
+                        E-mail is Invalid</p>
+                </div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5"></div>
+            <!-- <div class="col">
+                <div class="form-group">
+                    <label for="phone">WhatsApp Mobile Number * <span class="lblError"></span></label>
+                    <div class="controls">
+                        <input type="number" formControlName="phone" ng2TelInput
+                            [ng2TelInputOptions]="{initialCountry: 'in'}"
+                            [ngClass]="{ 'is-invalid': associateForm.get('phone').errors }"
+                            (keypress)="numericOnly($event)" />
+                        <div *ngIf="associateForm.get('phone').errors" class="invalid-feedback">
+                            <div *ngIf="associateForm.get('phone').errors.required">Phone is required</div>
+                            <div *ngIf="associateForm.get('phone').errors.minlength">Phone must be at least 10 numbers.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <!-- E-mail -->
+                    <label for="firstKycId">Adhar: <span class="lblError">*</span></label>
+                   
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="firstKycId" placeholder="Adhar Id" class="form-control"
+                        formControlName="firstKycId">
+                    <p class="lblError"
+                        *ngIf="associateForm.get('firstKycId').hasError('required') && !associateForm.get('adharId').pristine">
+                        Please provide your Adhar Id
+                    </p>
+                    <p class="lblError"
+                        *ngIf="associateForm.get('firstKycId').hasError('adharId') && !associateForm.get('adharId').pristine">
+                        Adhar Id is Invalid</p>
+                </div>
+            </div>
+             
+            <div class="col-1">
+                <div class="form-group">
+                    <label for="secondKycId">PAN: <span class="lblError">*</span></label>
+                    
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="secondKycId" placeholder="PAN" class="form-control"
+                        formControlName="secondKycId">
+                    <p class="lblError"
+                        *ngIf="associateForm.get('secondKycId').hasError('required') && !associateForm.get('adharId').pristine">
+                        Please provide your PAN
+                    </p>
+                    <p class="lblError"
+                        *ngIf="associateForm.get('secondKycId').hasError('adharId') && !associateForm.get('adharId').pristine">
+                        PAN is Invalid</p>
+                </div>
+            </div>
+        </div>
+       
+       
+        <div class="form-row">
+            <div class="form-check form-check-inline col-1">
+                <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="col-1">
+                <input type="radio" id="genderMale" class="form-check-input" formControlName="gender" value="Male">
+            </div>
+            <div class="form-check form-check-inline col-1">
+                <label class="form-check-label" for="genderFeMale">Female</label>
+            </div>
+            <div class="col-1">
+                <input type="radio" id="genderFemale" class="form-check-input" formControlName="gender" value="Female">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Address Line1: <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <div class="controls">
+                    <input type="text" id="addressLine1" placeholder="Address Line1" class="form-control"
+                        formControlName="addressLine1">
+                    <p class="lblError" *ngIf="associateForm.get('addressLine1').hasError('required')
+                              && !associateForm.get('addressLine1').pristine">
+                        Address Line 1 is Required
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-1">
+                <label for="username">Address Line2: <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="streetAddress2" placeholder="Address Line2" class="form-control"
+                    formControlName="streetAddress2">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">City : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <p-dropdown [options]="cities" formControlName="city" optionLabel="label" optionValue="value"
+                    appendTo="body"  filter="true" placeholder="Select a City"></p-dropdown>
+            </div>
+            <div class="col-1">
+                <label for="username">State : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="state" placeholder="State" class="form-control" formControlName="state">
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <label for="username">Zip : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="postalCode" placeholder="Postal/Zip Code" class="form-control"
+                    formControlName="postalCode">
+            </div>
+            <div class="col-1">
+                <label for="username">Country : <span class="lblError">*</span></label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="country" placeholder="country" class="form-control" readonly
+                    formControlName="country">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" [disabled]="associateForm.invalid">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" [disabled]="associateForm.invalid"
+                    (click)="reviewDialog()">
+                        Review
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" (click)="reset($event)"
+                        [disabled]="associateForm.invalid">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+<!-- </div> -->

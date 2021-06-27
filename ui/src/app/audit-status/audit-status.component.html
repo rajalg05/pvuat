@@ -1,0 +1,72 @@
+<br>
+<br>
+<p-steps [model]="stepItems"></p-steps>
+
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Jobs</h5>
+            <p-multiSelect [options]="jobs" [(ngModel)]="selectedJob" defaultLabel="Select a Job" optionLabel="name"
+                display="chip" appendTo="body" maxSelectedLabels=2></p-multiSelect>
+        </div>
+        <div class="col-md-4">
+            <h5>TL/NonTL</h5>
+            <p-multiSelect [options]="tlNonTls" [(ngModel)]="selectedTlNonTls" defaultLabel="Select a TL / Non TL"
+                optionLabel="name" display="chip" appendTo="body"></p-multiSelect>
+
+        </div>
+    </div>
+</div>  -->
+
+<br>
+<br>
+<br>
+<br>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-gmap #gmap [style]="{'width':'100%','height':'320px', 'margin-bottom': '1em'}" [options]="options" [overlays]="overlays"
+       (onMapClick)="handleMapClick($event)" (onOverlayClick)="handleOverlayClick($event)" (onOverlayDragEnd)="handleDragEnd($event)"></p-gmap>
+
+<button type="button" pButton label="Clear" icon="pi pi-times" (click)="clear()" style="margin-right:.25em"></button>
+<button type="button" pButton label="Zoom In" icon="pi pi-plus" (click)="zoomIn(gmap.getMap())" style="margin-right:.25em"></button>
+<button type="button" pButton label="Zoom Out" icon="pi pi-minus" (click)="zoomOut(gmap.getMap())"></button>
+
+<p-dialog showEffect="fade" [(visible)]="dialogVisible" header="New Location" [style]="{width: '300px'}">>
+    <div class="p-grid p-fluid" *ngIf="selectedPosition">
+        <div class="p-col-2"><label for="title">Label</label></div>
+        <div class="p-col-10"><input type="text" pInputText id="title" [(ngModel)]="markerTitle"></div>
+
+        <div class="p-col-2"><label for="lat">Lat</label></div>
+        <div class="p-col-10"><input id="lat" type="text" readonly pInputText [ngModel]="selectedPosition.lat()"></div>
+
+        <div class="p-col-2"><label for="lng">Lng</label></div>
+        <div class="p-col-10"><input id="lng" type="text" readonly pInputText [ngModel]="selectedPosition.lng()"></div>
+
+        <div class="p-col-2"><label for="drg">Drag</label></div>
+        <div class="p-col-10"><p-checkbox [(ngModel)]="draggable" binary="true" [style]="{'margin-top':'.25em'}"></p-checkbox></div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div>
+            <button type="button" pButton label="Add Marker" icon="pi-plus" (click)="addMarker()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+<!-- <h5>Due Date</h5>
+<p-multiSelect [options]="dueDates" [(ngModel)]="dueDate" defaultLabel="Select a Due Date" optionLabel="name"
+    display="chip"></p-multiSelect>
+
+<h5>Ratings</h5>
+<p-multiSelect [options]="ratings" [(ngModel)]="rating" defaultLabel="Select a Rating" optionLabel="name"
+    display="chip"></p-multiSelect>
+
+<h5>Availability</h5>
+<p-multiSelect [options]="availabilities" [(ngModel)]="availability" defaultLabel="Select Availability" optionLabel="name"
+    display="chip"></p-multiSelect>
+
+<h5>Total Experience</h5>
+<p-multiSelect [options]="totalExperiences" [(ngModel)]="totalExperience" defaultLabel="Select Total Experience" optionLabel="name"
+    display="chip"></p-multiSelect>
+
+<h5>Location</h5>
+<p-multiSelect [options]="locations" [(ngModel)]="location" defaultLabel="Select the location" optionLabel="name"
+    display="chip"></p-multiSelect> -->

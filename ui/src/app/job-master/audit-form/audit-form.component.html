@@ -1,0 +1,141 @@
+<p-toast></p-toast>
+<div class="container">
+    <form [formGroup]="auditForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="auditName">Audit Name: <span class="lblError">*</span></label>
+                       
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="auditName" placeholder="Audit Name" class="form-control"
+                            formControlName="auditName"  >
+                        <p class="lblError" *ngIf="auditForm.get('auditName').hasError('required')
+                              && !auditForm.get('auditName').pristine">
+                              Audit Name is Required
+                        </p>
+                        <p class="lblError" *ngIf="auditNameDuplicate">
+                              Audit Name Entered for the job <b>{{audit.jobName}}</b> is Duplicate!!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="dateOfAudit">Date of Audit: <span class="lblError">*</span></label>
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls"> 
+                        <p-calendar [inline]="true" formControlName="dateOfAudit" [showIcon]="true" dateFormat="dd/MM/yy" showButtonBar="true"
+                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" selectionMode="multiple" appendTo="body"></p-calendar>
+                        <p class="lblError" *ngIf="auditForm.get('dateOfAudit').hasError('required')
+                              && !auditForm.get('dateOfAudit').pristine">
+                              Date Of Audit is Required
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <div class="form-group">
+                        <label for="paymentReceived">Payment Received: <span class="lblError">*</span></label>
+                       
+                    </div>
+                </div> 
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="paymentReceived" placeholder="Payment Received" class="form-control"
+                            formControlName="paymentReceived">
+                        <p class="lblError" *ngIf="auditForm.get('paymentReceived').hasError('required')
+                              && !auditForm.get('paymentReceived').pristine">
+                              Payment Received is Required
+                        </p>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">Address Line1: <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <div class="controls">
+                        <input type="text" id="addressLine1" placeholder="Address Line1" class="form-control"
+                            formControlName="addressLine1">
+                        <p class="lblError" *ngIf="auditForm.get('addressLine1').hasError('required')
+                                  && !auditForm.get('addressLine1').pristine">
+                            Address Line 1 is Required
+                        </p>
+    
+                    </div>
+                </div>
+                <div class="col-1">
+                    <label for="username">Address Line2: </label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="streetAddress2" placeholder="Address Line2" class="form-control"
+                        formControlName="streetAddress2">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">City : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <p-dropdown [options]="cities" formControlName="city" optionLabel="label" optionValue="value"
+                    appendTo="body"  filter="true" placeholder="Select a City"></p-dropdown>
+                </div>
+                <div class="col-1">
+                    <label for="username">State : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="state" placeholder="State" class="form-control" formControlName="state">
+                </div>
+    
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label for="username">Zip : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="postalCode" placeholder="Postal/Zip Code" class="form-control"
+                        formControlName="postalCode">
+                </div>
+                <div class="col-1">
+                    <label for="username">Country : <span class="lblError">*</span></label>
+                </div>
+                <div class="col-5">
+                    <input type="text" id="country" placeholder="country" class="form-control" readonly
+                        formControlName="country">
+                </div>
+            </div> 
+            
+        <div class="form-row">
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" [disabled]="!auditForm.valid">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button">
+                        Review
+                    </button>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" (click)="reset($event)">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div> 
+

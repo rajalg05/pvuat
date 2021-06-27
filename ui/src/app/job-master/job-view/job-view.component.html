@@ -1,0 +1,45 @@
+<div class="card">
+    <p-dataView #dv [value]="jobs" [paginator]="true" [rows]="9" filterBy="clientName" [sortField]="sortField"
+        [sortOrder]="sortOrder" layout="list">
+        <ng-template pTemplate="header">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" ngDefaultControl placeholder="Sort By Price"
+                    (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="     Search by Name"
+                        (input)="dv.filter($event.target.value)">
+                </span>
+                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+        </ng-template>
+        <ng-template let-job pTemplate="listItem">
+            <div class="p-col-12">
+                <p-accordion [multiple]="true">
+                    <p-accordionTab>
+                        <ng-template pTemplate="header">
+                            {{job.jobName}} - {{job.clientName}}
+                              <button pButton (click)="addNewAuditTab(job)" label="+ Audit" type="button" class="p-button-outlined p-button-rounded"></button>
+                              <i class="fa fa-trash" (click)="deleteJob(job)"></i>
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <div class="product-list-action">
+                                <div>
+                                    <span class="product-price">Job Payment type : {{job.paymentType}}</span>
+                                </div> 
+                                <div>
+                                    <span class="product-price">Total Payment : {{job.totalPayment}}</span>
+                                </div>
+                                <div>
+                                    Audit Name : 
+                                    <span *ngFor="let i of job.audits">
+                                        <a  (click)="addJobAuditTab(job, i)" style="color: blue;">{{i.auditName}}  ,  </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-accordionTab> 
+                </p-accordion> 
+            </div>
+        </ng-template> 
+    </p-dataView> 

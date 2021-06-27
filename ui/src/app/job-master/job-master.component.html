@@ -1,0 +1,9 @@
+<button pButton (click)="addNewJobTab()" label="+" type="button" class="p-button-outlined p-button-rounded"></button>
+
+<p-tabView [controlClose]="true" (onClose)="handleClose($event)" [activeIndex]="selectedTabIndex" (onChange)="handleChange($event)">
+    <p-tabPanel [closable]="true" [header]="item.header" *ngFor="let item of items; let i = index" [selected]="i == selectedTabIndex">
+        <app-job-view *ngIf="i == 0" (sendJobEmitter)="receiveJob($event)" (sendAuditEmitter)="receiveAudit($event)" [audit]="audit" [job]="job"></app-job-view>
+        <app-job-form (tabNameChangeEmit)="tabNameChangeEmit($event)" *ngIf="i != 0 && item.header.startsWith('Job')" [job]="job"></app-job-form>
+        <app-audit-form (tabNameChangeAuditEmit)="tabNameChangeAuditEmit($event)" *ngIf="i != 0 && item.header.startsWith('Audit')" [audit]="audit"></app-audit-form>
+    </p-tabPanel>
+</p-tabView> 

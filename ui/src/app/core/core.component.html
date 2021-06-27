@@ -1,0 +1,27 @@
+  <mat-tab-group animationDuration="0ms" [selectedIndex]="0">
+    <mat-tab label="Audit Allocation">
+        <app-audit-allocation></app-audit-allocation>
+    </mat-tab>
+    <mat-tab label="Dashboard">
+        <app-dashboard></app-dashboard>
+    </mat-tab>
+    <mat-tab label="Jobs">
+        <app-job-master></app-job-master>
+    </mat-tab>
+    <mat-tab label="Resources">
+        <app-resource-master></app-resource-master>
+    </mat-tab>
+    <mat-tab label="Associates">
+        <app-associate-master></app-associate-master>
+    </mat-tab>
+    <mat-tab label="Audit status" *ngIf="authenticationService.currentUserValue && 
+                                    authenticationService.currentUserValue.role == 'subAssociate'"> <!--Only subAssociate can view this -->
+        <app-audit-status></app-audit-status>
+    </mat-tab>
+    <mat-tab label="MIS Report">
+        <app-mis></app-mis>
+    </mat-tab>
+    <mat-tab label="Cost sheet">
+        <app-cost-sheet></app-cost-sheet>
+    </mat-tab>
+  </mat-tab-group> 
