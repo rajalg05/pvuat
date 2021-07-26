@@ -10,7 +10,7 @@ import { Resource } from '../model/resource';
 export class ResourceService {
 
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://ec2-18-224-109-184.us-east-2.compute.amazonaws.com:8085/audit';
+  BASE_URL: string = 'http://localhost:8080/audit';
   
   
   

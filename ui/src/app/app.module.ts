@@ -54,7 +54,6 @@ import { CarouselModule } from 'primeng/carousel';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChartModule } from 'primeng/chart';
 import { TooltipModule } from 'primeng/tooltip';
-import 'chart.js/dist/Chart.min.js';
 import { FullCalendarModule } from 'primeng/fullcalendar';
 import { ResourceDialogComponent } from './resource-master/resource-form/resource-dialog/resource-dialog.component';
 import { AssociateDialogComponent } from './associate-master/associate-form/associate-dialog/associate-dialog.component';
@@ -66,7 +65,7 @@ import { AuditAllocationComponent } from './audit-allocation/audit-allocation.co
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { KnobModule } from 'primeng/knob';
 import { IsNaNPipe } from './pipe/is-na-n.pipe';
-
+import { UploadFilesComponent } from './resource-master/upload-files/upload-files.component'; 
 
 @NgModule({
   declarations: [
@@ -96,7 +95,8 @@ import { IsNaNPipe } from './pipe/is-na-n.pipe';
     JobDialogComponent,
     AuditFormComponent,
     AuditAllocationComponent,
-    IsNaNPipe
+    IsNaNPipe,
+    UploadFilesComponent
   ],
   imports: [
     BrowserModule,

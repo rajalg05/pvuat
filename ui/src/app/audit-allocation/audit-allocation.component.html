@@ -90,7 +90,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-audit >
-        <tr class="p-selectable-row"  [pSelectableRow]="audit" (click)="allocateResource(audit)"> 
+        <tr class="p-selectable-row"  [pSelectableRow]="audit" (click)="allocateResource(audit, $event)"> 
             <td>
                 {{audit.jobName}}
             </td>
@@ -99,7 +99,14 @@
             </td> 
             
             <td>
-               <p-dropdown #auditDateDropDown [options]="audit.auditDates" optionValue="code" optionLabel="name" dataKey="code" [(ngModel)]="selectedAuditDate"></p-dropdown> 
+               <p-dropdown #auditDateDropDown 
+               [options]="audit.auditDates" 
+               optionValue="code" 
+               optionLabel="name" 
+               dataKey="code" 
+               [(ngModel)]="selectedAuditDate">
+
+               </p-dropdown> 
             </td>
             <td>
                 {{audit.paymentReceived}}
@@ -197,7 +204,7 @@
             Profit : {{(profit | isNaN) ? '' : profit }}
         </p>
         <p *ngFor="let t of targetList">
-            Cost of {{t.basicContactDetail.firstName}} : {{t.paymentAmount}}
+            Cost of {{t.basicContactDetail.firstName}} : {{t.paymentAmount}}  per {{t.paymentType}}
         </p>
         <p>
             Profit % : {{(profitPercentage | isNaN) ? '' : profitPercentage }}

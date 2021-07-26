@@ -48,6 +48,10 @@ public class Resource {
 	
 	public String bike; 
 	
+	public String paymentType;
+	
+	public int paymentAmount;
+	
 	public java.util.Date createdTs;
 	
 	public java.util.Date updatedTs;
@@ -141,7 +145,23 @@ public class Resource {
 	public void setResourcetype(String resourceType) {
 		this.resourceType = resourceType;
 	}
-	
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public int getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public void setPaymentAmount(int paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
 	public java.util.Date getCreatedts() {
 		return createdTs;
 	}

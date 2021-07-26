@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Audit } from '../model/audit';
 import { AuditAllocation } from '../model/auditAllocation';
@@ -9,9 +9,10 @@ import { AuditDate } from '../model/auditDate';
   providedIn: 'root'
 })
 export class AuditService {
-
+  public newAuditAddedEmit = new EventEmitter<Audit>();
+  
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://ec2-18-224-109-184.us-east-2.compute.amazonaws.com:8085/audit';
+  BASE_URL: string = 'http://localhost:8080/audit';
 
   
   saveAudit(audit: Audit): Observable<Audit> {

@@ -6,7 +6,7 @@ import { User } from '../model/user';
 @Injectable({ providedIn: 'root' })
 export class UserService {
     constructor(private http: HttpClient) { }
-    BASE_URL: string = 'http://ec2-18-224-109-184.us-east-2.compute.amazonaws.com:8085/audit';
+    BASE_URL: string = 'http://localhost:8080/audit';
     getAll() {
        // return this.http.get<User[]>(`${config.apiUrl}/users`);
        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');

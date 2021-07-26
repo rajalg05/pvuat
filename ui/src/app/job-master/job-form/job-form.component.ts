@@ -4,7 +4,9 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { Address } from 'src/app/model/address';
 import { Associate } from 'src/app/model/associateMaster';
 import { Audit } from 'src/app/model/audit';
-import { BasicContactDetail } from 'src/app/model/BasicContactDetail';
+//import { BasicContactDetail } from 'src/app/model/BasicContactDetail';
+import { BasicContactDetail } from '../../model/basicContactDetail';
+
 import { Job } from 'src/app/model/job';
 import { KYC } from 'src/app/model/kyc';
 import { Resource } from 'src/app/model/resource';

@@ -8,6 +8,5 @@ public class PvApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PvApplication.class, args);
-	}
-
+	} 
 }

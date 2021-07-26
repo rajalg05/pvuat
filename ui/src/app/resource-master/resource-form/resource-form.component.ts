@@ -2,13 +2,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Address } from 'src/app/model/address';
-import { BasicContactDetail } from 'src/app/model/BasicContactDetail';
+//import { BasicContactDetail } from 'src/app/model/BasicContactDetail';
+import { BasicContactDetail } from '../../model/basicContactDetail';
+
 import { KYC } from 'src/app/model/kyc';
 import { Resource } from 'src/app/model/resource';
 import { ResourceService } from 'src/app/service/resource.service';
 import {DialogService} from 'primeng/dynamicdialog';
 import { ResourceDialogComponent } from './resource-dialog/resource-dialog.component';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
+import { Observable } from 'rxjs-compat';
+import { UploadFilesService } from 'src/app/service/upload-files.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-resource-form',
@@ -42,9 +47,17 @@ export class ResourceFormComponent implements OnInit {
   tlNonTls: SelectItem[];
   @Output() public tabNameChangeEmit = new EventEmitter();
   @Input() resource: Resource;
+  // begin file input fields
+  selectedFiles: FileList;
+  progressInfos = [];
+  message = '';
+
+  fileInfos: Observable<any>;
+  // end file input fields
   constructor(private resourceService: ResourceService,
     public dialogService: DialogService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private uploadService: UploadFilesService) {
     this.cities = [
       { label: 'Pune', value: 'Pune' },
       { label: 'Mumbai', value: 'Mumbai' },
@@ -139,6 +152,7 @@ export class ResourceFormComponent implements OnInit {
         paymentAmount: new FormControl(this.resource.paymentAmount)
       }); 
     }
+    this.fileInfos = this.uploadService.getFiles();
   }
   onSubmit() {
     let resource: Resource = this.populateFormValues();
@@ -163,6 +177,8 @@ export class ResourceFormComponent implements OnInit {
     resource.resourceType = this.resourceForm.get('tlNonTl').value;
     resource.stockAuditExp = this.resourceForm.get('stockAuditExp').value;
     resource.bike = this.resourceForm.get('bike').value;
+    resource.paymentType = this.resourceForm.get('paymentType').value;
+    resource.paymentAmount = this.resourceForm.get('paymentAmount').value;
     resource.allocated = 'false';
     
     basicContactDetail.firstName = this.resourceForm.get('firstName').value;
@@ -192,7 +208,7 @@ export class ResourceFormComponent implements OnInit {
     kyc.secondKycType = 'PAN';
 
     resource.kyc = kyc;
-
+    
     return resource;
   }
   numericOnly(event) {
@@ -200,7 +216,7 @@ export class ResourceFormComponent implements OnInit {
     let result = patt.test(event.key);
     return result;
   }
-  adharFiles: any = [];
+  adharFiles: File[] = [];
 
   uploadAdharFile(event) {
     for (let index = 0; index < event.length; index++) {
@@ -238,6 +254,33 @@ export class ResourceFormComponent implements OnInit {
   });
     //this.displayReviewDialog = true;
   }
+  selectFiles(event) {
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+  }
+  uploadFiles() {
+    this.message = '';
+  
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      this.upload(i, this.selectedFiles[i]);
+    }
+  }
+  upload(idx, file) {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+  
+    this.uploadService.upload(file).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.fileInfos = this.uploadService.getFiles();
+        }
+      },
+      err => {
+        this.progressInfos[idx].value = 0;
+        this.message = 'Could not upload the file:' + file.name;
+      });
+  }  
 }
 
 

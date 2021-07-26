@@ -16,5 +16,9 @@ export class KYC {
 	
 	public secondKycBackImagePath: string;
 	
+	public panFormData: FormData;
+
+	public adharFormData: FormData;
+
 	public createdTs: Date;
 }

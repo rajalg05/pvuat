@@ -94,6 +94,7 @@ export class AuditFormComponent implements OnInit {
     this.auditService.saveAudit(this.audit).subscribe(data => {
       console.log('saveAudit data = ', data);
       this.tabNameChangeAuditEmit.emit(data);
+      this.auditService.newAuditAddedEmit.next(data); // send audit to audit allocation
       this.SpinnerService.hide();
       this.messageService.add({ severity: 'info', summary: 'Audit Saved', detail: 'Audit Saved' });
     });

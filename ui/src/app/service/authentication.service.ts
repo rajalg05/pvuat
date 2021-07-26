@@ -11,7 +11,7 @@ import { AESEncryptDecryptService } from './aesencrypt-decrypt-service.service';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-    BASE_URL: string = 'http://ec2-18-224-109-184.us-east-2.compute.amazonaws.com:8085/audit';
+    BASE_URL: string = 'http://localhost:8080/audit';
     constructor(private http: HttpClient, public jwtHelper: JwtHelperService,
         private _AESEncryptDecryptService: AESEncryptDecryptService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
