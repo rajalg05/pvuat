@@ -1,5 +1,5 @@
 import { Address } from "./address";
-import { BasicContactDetail } from "../../app/model/BasicContactDetail";
+import { BasicContactDetail } from "../../app/model/basicContactDetail";
 import { KYC } from "./kyc";
 export class Associate {
   public  basicContactDetail: BasicContactDetail ;  
