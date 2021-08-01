@@ -49,7 +49,7 @@ import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/audit")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://150.242.14.192:8085/"})
 @Transactional
 public class AuditController {
 

@@ -12,7 +12,6 @@ export class AuditService {
   public newAuditAddedEmit = new EventEmitter<Audit>();
   
   constructor(private http: HttpClient) { }
-  //BASE_URL: string = 'http://localhost:8080/audit';
   BASE_URL: string = 'http://150.242.14.192:8085/audit';
 
   
