@@ -11,7 +11,8 @@ export class JobService {
 
   jobs: Job[] = []; // Used to check the duplicate job name enter check 
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://localhost:8080/audit';
+  //BASE_URL: string = 'http://localhost:8080/audit';
+  BASE_URL: string = 'http://150.242.14.192:8085/audit';
   
   saveJob(job: Job): Observable<Job> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
