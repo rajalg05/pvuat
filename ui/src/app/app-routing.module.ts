@@ -13,21 +13,23 @@ import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
-  { path: '',                 redirectTo: '/auditAllocation',       pathMatch: 'full' },
-  { path: 'manpowerMaster',   component: ResourceComponent },
+  { path: '', redirectTo: '/auditAllocation', pathMatch: 'full' },
+  /* { path: 'manpowerMaster',   component: ResourceComponent },
   { path: 'associate',  component: AssociateComponent },
-  { path: 'jobMaster',        component: JobMasterComponent },
-  { path: 'auditAllocation',    
+  { path: 'jobMaster',        component: JobMasterComponent }, */
+  {
+    path: 'auditAllocation',
     component: AuditStatusComponent,
-    canActivate: [RoleGuard], 
-    data: { 
+    canActivate: [RoleGuard],
+    data: {
       expectedRole: 'subAssociate'
-    }  },
-  { path: 'costSheet',        component: CostSheetComponent },
-  
- // { path: '**',               component: PageNotFoundComponent },
- // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
+    }
+  },
+  /* { path: 'costSheet',        component: CostSheetComponent }, */
+
+  // { path: '**',               component: PageNotFoundComponent },
+  // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
   // otherwise redirect to home

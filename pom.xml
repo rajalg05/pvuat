@@ -169,7 +169,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build --aot --build-optimizer</arguments>
+							<arguments>run build --aot</arguments>
 						</configuration>
 						<phase>generate-resources</phase>
 					</execution>

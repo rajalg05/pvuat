@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { Audit } from '../model/audit';
 import { AuditAllocation } from '../model/auditAllocation';
 import { AuditDate } from '../model/auditDate';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuditService {
   public newAuditAddedEmit = new EventEmitter<Audit>();
   
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://150.242.14.192:8085/audit';
+  BASE_URL: string = environment.apiUrl;
 
   
   saveAudit(audit: Audit): Observable<Audit> {

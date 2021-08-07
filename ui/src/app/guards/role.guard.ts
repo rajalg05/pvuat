@@ -13,7 +13,8 @@ export class RoleGuard implements CanActivate {
     // this will be passed from the route config
     // on the data property
     const expectedRole = route.data.expectedRole;
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
+    const userName = sessionStorage.getItem('userName');
     // decode the token to get its payload
     //const tokenPayload = decode(token);
     if (this.auth.currentUserValue  && this.auth.currentUserValue.role == 'subAssociate') {

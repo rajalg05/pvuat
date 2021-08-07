@@ -22,6 +22,7 @@ public class User {
 	String password;
 	String status;
 	String comments;
+	String token;
 	
 	@OneToOne( cascade = CascadeType.ALL) 
 	public Role role;
@@ -75,5 +76,11 @@ public class User {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
