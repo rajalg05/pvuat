@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build",
+	"buildProduction": "ng build --prod --named-chunks --verbose --build-optimizer=true --source-map",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
