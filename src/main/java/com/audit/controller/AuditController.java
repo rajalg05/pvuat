@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.audit.PvApplication;
 import com.audit.model.Associate;
 import com.audit.model.Audit;
 import com.audit.model.AuditAllocation;
@@ -84,9 +87,12 @@ public class AuditController {
 
 	@Autowired
 	FilesStorageService storageService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(PvApplication.class);
 	 
 	@PostMapping("/login")
-	ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+	ResponseEntity<String> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("Inside login Started....");
 		Optional<User> o = userRepository.findByUserName(user.getUserName()); 
 		if(o.isEmpty()) {
 			user.setComments("Username not registered!!");
@@ -127,6 +133,7 @@ public class AuditController {
 
 	@PostMapping("/saveUser")
 	ResponseEntity<String> saveUser(@RequestBody User user) {
+		logger.debug("Inside SaveUser Started....");
 		Optional<User> dbUser = userRepository.findByUserName(user.getUserName());
 
 		boolean userExists = dbUser.isPresent();
