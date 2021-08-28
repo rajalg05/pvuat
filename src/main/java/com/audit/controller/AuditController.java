@@ -91,7 +91,7 @@ public class AuditController {
 	private static final Logger logger = LoggerFactory.getLogger(PvApplication.class);
 	 
 	@PostMapping("/login")
-	ResponseEntity<String> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+	ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("Inside login Started....");
 		Optional<User> o = userRepository.findByUserName(user.getUserName()); 
 		if(o.isEmpty()) {
