@@ -22,6 +22,6 @@ public class PvApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		logger.debug("Application is Running on :" + profile + " Environment");
+			logger.debug("Application is Running on :" + profile + " Environment");
 	}
 }

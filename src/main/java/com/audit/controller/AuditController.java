@@ -1,6 +1,7 @@
 package com.audit.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -14,27 +15,24 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.audit.PvApplication;
 import com.audit.model.Associate;
 import com.audit.model.Audit;
 import com.audit.model.AuditAllocation;
 import com.audit.model.AuditDate;
-import com.audit.model.FileInfo;
 import com.audit.model.Job;
 import com.audit.model.Resource;
 import com.audit.model.ResponseMessage;
@@ -49,10 +47,12 @@ import com.audit.repository.UserRepository;
 import com.audit.service.FilesStorageService;
 import com.audit.utils.PvUtils;
 import com.google.gson.Gson;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/audit")
-@CrossOrigin(origins = {"http://localhost:4200", "http://150.242.14.192:8085/"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8085","http://150.242.14.192:8085/"})
 @Transactional
 public class AuditController {
 
@@ -95,16 +95,40 @@ public class AuditController {
 		logger.debug("Inside login Started....");
 		Optional<User> o = userRepository.findByUserName(user.getUserName()); 
 		if(o.isEmpty()) {
-			return new ResponseEntity<String>(gson.toJson("Username not registered!!"),
-					HttpStatus.NOT_ACCEPTABLE);
+			user.setComments("Username not registered!!");
+			return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		if (o.get() != null && pvUtils.decrypt(o.get().getPassword()).equals(pvUtils.decrypt(user.getPassword()))) {
 			request.getSession(true);
-			return new ResponseEntity<String>(gson.toJson("Login successful"), HttpStatus.OK);
+			String token = getJWTToken(user.getUserName());
+			user.setToken(token);
+			user.setComments("Login successful");
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>(gson.toJson("Username and/or Password incorrect"),
-					HttpStatus.NOT_ACCEPTABLE);
+			user.setComments("Username and/or Password incorrect");
+			return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
 		}
+	}
+
+	private String getJWTToken(String username) {
+		String secretKey = "mySecretKey";
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList("ROLE_USER");
+		
+		String token = Jwts
+				.builder()
+				.setId("softtekJWT")
+				.setSubject(username)
+				.claim("authorities",
+						grantedAuthorities.stream()
+								.map(GrantedAuthority::getAuthority)
+								.collect(Collectors.toList()))
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512,
+						secretKey.getBytes()).compact();
+
+		return "Bearer " + token;
 	}
 
 	@PostMapping("/saveUser")

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { config } from '../environment';
 import { User } from '../model/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AESEncryptDecryptService } from './aesencrypt-decrypt-service.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-  BASE_URL: string = 'http://150.242.14.192:8085/audit';
+    BASE_URL: string = environment.apiUrl;
 
     constructor(private http: HttpClient, public jwtHelper: JwtHelperService,
         private _AESEncryptDecryptService: AESEncryptDecryptService) {
@@ -31,7 +31,10 @@ export class AuthenticationService {
         headers.set('Access-Control-Allow-Origin', '*');
         return this.http.post<User>(this.BASE_URL + '/login', user, { headers: headers })
             .pipe(map(user => { // TO DO - the username & password need to be fixed    
-                localStorage.setItem('JSESSIONID', JSON.stringify(user));
+                localStorage.setItem('JSESSIONID', JSON.stringify(user.token));
+                sessionStorage.setItem('userName',user.userName);
+                let tokenStr= user.token;
+                sessionStorage.setItem('token', tokenStr);
                 this.currentUserSubject.next(user);
             })
                 //catchError(this.handleError('saveUser'))
@@ -48,9 +51,16 @@ export class AuthenticationService {
             })); */
     }
 
+    isUserLoggedIn() {
+        let user = sessionStorage.getItem('userName')
+        //console.log(!(user === null))
+        return !(user === null)
+      }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        sessionStorage.removeItem('userName')
         this.currentUserSubject.next(null);
     }
 

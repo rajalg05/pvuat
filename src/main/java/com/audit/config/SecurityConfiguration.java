@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     	            .authorizeRequests()
     	            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
     	            .antMatchers(AUTH_WHITELIST).permitAll() // whitelist URL permitted
-    	            .antMatchers("/api").authenticated(); // others need auth
+    	            .antMatchers("/audit").authenticated(); // others need auth
      }
      @Bean
      CorsConfigurationSource corsConfigurationSource() {

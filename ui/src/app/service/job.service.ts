@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Audit } from '../model/audit';
 import { Job } from '../model/job';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class JobService {
 
   jobs: Job[] = []; // Used to check the duplicate job name enter check 
   constructor(private http: HttpClient) { }
-  //BASE_URL: string = 'http://localhost:8080/audit';
-  BASE_URL: string = 'http://150.242.14.192:8085/audit';
+  BASE_URL: string = environment.apiUrl;
   
   saveJob(job: Job): Observable<Job> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
