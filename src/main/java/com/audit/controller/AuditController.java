@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,27 +13,25 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.audit.PvApplication;
+import com.audit.exception.BadRequestException;
+import com.audit.exception.ResourceNotFoundException;
+import com.audit.exception.UnAutherizedException;
 import com.audit.model.Associate;
 import com.audit.model.Audit;
 import com.audit.model.AuditAllocation;
 import com.audit.model.AuditDate;
-import com.audit.model.FileInfo;
 import com.audit.model.Job;
 import com.audit.model.Resource;
 import com.audit.model.ResponseMessage;
@@ -92,7 +89,7 @@ public class AuditController {
 	 
 	@PostMapping("/login")
 	ResponseEntity<String> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("Inside login Started....");
+		logger.debug("Inside login Started....{}",user.getUserName());
 		Optional<User> o = userRepository.findByUserName(user.getUserName()); 
 		if(o.isEmpty()) {
 			return new ResponseEntity<String>(gson.toJson("Username not registered!!"),
@@ -102,14 +99,19 @@ public class AuditController {
 			request.getSession(true);
 			return new ResponseEntity<String>(gson.toJson("Login successful"), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>(gson.toJson("Username and/or Password incorrect"),
-					HttpStatus.NOT_ACCEPTABLE);
+			
+			throw new UnAutherizedException("Username and/or Password incorrect");
+			
+//			  return new
+//			  ResponseEntity<String>(gson.toJson("Username and/or Password incorrect"),
+//			  HttpStatus.NOT_ACCEPTABLE);
+			 
 		}
 	}
 
 	@PostMapping("/saveUser")
 	ResponseEntity<String> saveUser(@RequestBody User user) {
-		logger.debug("Inside SaveUser Started....");
+		logger.debug("Inside SaveUser Started....{}",user.getUserName());
 		Optional<User> dbUser = userRepository.findByUserName(user.getUserName());
 
 		boolean userExists = dbUser.isPresent();
@@ -117,66 +119,82 @@ public class AuditController {
 		if (!userExists) {
 			userRepository.save(user);
 			return new ResponseEntity<String>(gson.toJson("Save User Successfull!!"), HttpStatus.OK);
-		} else
-			return new ResponseEntity<String>(gson.toJson("user exists"), HttpStatus.OK);
+		} else {
+			throw new BadRequestException("Username "+user.getUserName()+ " exists");
+			//return new ResponseEntity<String>(gson.toJson("user exists"), HttpStatus.OK);
+		}
+			
 	}
 
 	@PostMapping("/deleteUser")
 	ResponseEntity<String> deleteUser(@RequestBody User user) {
+		logger.debug("Inside deleteUser Started....{}",user.getUserName());
 		userRepository.delete(user);
 		return new ResponseEntity<String>(gson.toJson("Delete User Successfull!!"), HttpStatus.OK);
 	}
 
 	@GetMapping("/getUsers")
 	ResponseEntity<List<User>> findAllUsers() {
+		logger.debug("Inside findAllUsers Started....");
 		List<User> l = userRepository.findAll();
 		return ResponseEntity.ok(l);
  	}
 
 	@PostMapping("/saveResource")
 	ResponseEntity<String> saveResource(@RequestBody Resource resource) {
+		logger.debug("Inside saveResource Started....{}",resource.id);
 		resourceRepository.save(resource);
 		return new ResponseEntity<String>(gson.toJson("Save Resource Successfull!!"), HttpStatus.OK);
 	}
 
 	@PostMapping("/deleteResource")
 	ResponseEntity<String> deleteResource(@RequestBody Resource resource) {
+		logger.debug("Inside deleteResource Started....{}",resource.id);
 		resourceRepository.delete(resource);
 		return new ResponseEntity<String>(gson.toJson("Delete Resource Successfull!!"), HttpStatus.OK);
 	}
 
 	@GetMapping("/getResources")
 	ResponseEntity<List<Resource>> findAllResources() {
+		logger.debug("Inside findAllResources Started....");
 		List<Resource> l = resourceRepository.findAll();
+		if(l.size() == 0) {
+			throw new ResourceNotFoundException("No resource found");
+		}
 		return ResponseEntity.ok(l);
 	}
 
 	@GetMapping("/unAllocatedResources")
 	ResponseEntity<List<Resource>> unAllocatedResources() {
+		logger.debug("Inside unAllocatedResources Started....");
 		List<Resource> l = resourceRepository.unAllocatedResources();
 		return ResponseEntity.ok(l);
 	}
 	
 	@PostMapping("/saveAssociate")
 	ResponseEntity<String> saveAssociate(@RequestBody Associate associate) {
+		logger.debug("Inside saveAssociate Started....{}",associate.getId());
 		associateRepository.save(associate);
 		return new ResponseEntity<String>(gson.toJson("Save Associate Successfull!!"), HttpStatus.OK);
 	}
 
 	@GetMapping("/findAllAssociates")
 	ResponseEntity<List<Associate>> findAllAssociates() {
+		logger.debug("Inside findAllAssociates Started....");
 		List<Associate> l = associateRepository.findAll();
 		return ResponseEntity.ok(l);
 	}
 
 	@PostMapping("/deleteAssociate")
 	ResponseEntity<String> deleteAssociate(@RequestBody Associate associate) {
+		logger.debug("Inside deleteAssociate Started....{}",associate.getId());
 		associateRepository.delete(associate);
 		return new ResponseEntity<String>(gson.toJson("Delete Resource Successfull!!"), HttpStatus.OK);
 	}
 
 	@PostMapping("/saveJob")
 	ResponseEntity<Job> saveJob(@RequestBody Job job) {
+		logger.debug("Inside saveJob Started....{}",job.getId());
 		Job j = jobRepository.getJobByJobName(job.getJobName());
 		if (j == null)
 			j = jobRepository.save(job);
@@ -185,7 +203,7 @@ public class AuditController {
 
 	@PostMapping("/saveAudit")
 	ResponseEntity<Audit> saveAudit(@RequestBody Audit audit) {
-		
+		logger.debug("Inside saveAudit Started....{}",audit.getId());
 		Audit auditSaved = auditRepository.save(audit);
 		audit.getAuditDates().forEach(auditDate -> {
 			auditDate.setAuditId(auditSaved.getId());
@@ -196,6 +214,7 @@ public class AuditController {
 
 	@GetMapping("/findAllJobs")
 	ResponseEntity<List<Job>> findAllJobs() {
+		logger.debug("Inside findAllJobs Started....");
 		List<Job> l = jobRepository.findAll();
 		for (Job j : l) {
 			List<Audit> audits = auditRepository.getAuditByjobId(j.getId());
@@ -217,14 +236,15 @@ public class AuditController {
 
 	@PostMapping("/deleteJob")
 	ResponseEntity<String> deleteJob(@RequestBody Job job) {
+		logger.debug("Inside deleteJob Started....{}",job.getId());
 		jobRepository.delete(job);
 		return new ResponseEntity<String>(gson.toJson("Delete Job Successfull!!"), HttpStatus.OK);
 	}
 
 	@GetMapping("/findAllAudits")
 	ResponseEntity<List<Audit>> findAllAudits() {
+		logger.debug("Inside findAllAudits Started....");
 		List<Audit> audits = auditRepository.findAll();
-		
 		List<AuditAllocation> allocatedAudits = auditAllocationRepository.findAll();
 		allocatedAudits.forEach(allocatedAudit -> {
 			audits.forEach(audit -> {
@@ -247,24 +267,28 @@ public class AuditController {
 	
 	@PostMapping("/deleteAudit")
 	ResponseEntity<String> deleteAudit(@RequestBody Audit audit) {
+		logger.debug("Inside deleteAudit Started....{}",audit.getId());
 		auditRepository.delete(audit);
 		return new ResponseEntity<String>(gson.toJson("Delete Audit Successfull!!"), HttpStatus.OK);
 	}
 
 	@GetMapping("/findAllAllocatedAudits")
 	ResponseEntity<List<AuditAllocation>> findAllAllocatedAudits() {
+		logger.debug("Inside findAllAllocatedAudits Started....");
 		List<AuditAllocation> l = auditAllocationRepository.findAll();
 		return ResponseEntity.ok(l); 
 	}
 
 	@GetMapping("/findAllAuditDates")
 	ResponseEntity<List<AuditDate>> findAllAuditDates() {
+		logger.debug("Inside findAllAuditDates Started....");
 		List<AuditDate> l = auditDateRepository.findAll();
 		return ResponseEntity.ok(l); 
 	}
 	
 	@PostMapping("/allocateAudits")
 	ResponseEntity<String> allocateAudits(@RequestBody List<AuditAllocation> auditAllocations) {
+		logger.debug("Inside allocateAudits Started....{}",auditAllocations.size());
 		List<AuditAllocation> aasSaved = auditAllocationRepository.findAll();
 		// check if the existing save audit allocations has the same object sent from UI
 		// is already stored
@@ -298,12 +322,14 @@ public class AuditController {
 	
 	@PostMapping("/unallocateAudits")
 	ResponseEntity<String> unallocateAudits(@RequestBody List<AuditAllocation> auditAllocations) {
+		logger.debug("Inside unallocateAudits Started....{}",auditAllocations.size());
 		saveResourceAndDeleteAudit(auditAllocations);
 		return new ResponseEntity<String>(gson.toJson("Unallocate Audit Successfull!!"), HttpStatus.OK);
 	}
 	
 	
 	public void saveResourceAndDeleteAudit(List<AuditAllocation> auditAllocations) {
+		logger.debug("Inside saveResourceAndDeleteAudit Started....{}",auditAllocations.size());
 		List<AuditAllocation> aasSaved = auditAllocationRepository.findAll();
 		// check if the existing save audit allocations has the same object sent from UI
 		// is already stored
@@ -326,6 +352,7 @@ public class AuditController {
 	
 	 @PostMapping("/upload")
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+		 logger.debug("Inside uploadFile Started....{}",file.getOriginalFilename());
 	    String message = "";
 	    try {
 	      storageService.save(file);
@@ -333,6 +360,7 @@ public class AuditController {
 	      message = "Uploaded the file successfully: " + file.getOriginalFilename();
 	      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	    } catch (Exception e) {
+	    	logger.error("Error while uploaing file {}",file.getOriginalFilename());
 	      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
 	      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 	    }
