@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs'; 
 import { Associate } from '../model/associateMaster'; 
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AssociateService {
 
  
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://150.242.14.192:8085/audit';
+  BASE_URL: string = environment.apiUrl;
   
   saveAssociate(associate: Associate): Observable<string> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');

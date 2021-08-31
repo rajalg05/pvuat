@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Resource } from '../model/resource';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,7 @@ import { Resource } from '../model/resource';
 export class ResourceService {
 
   constructor(private http: HttpClient) { }
-  BASE_URL: string = 'http://150.242.14.192:8085/audit';
-  
-  
+  BASE_URL: string = environment.apiUrl; 
   
   saveResource(resource: Resource): Observable<string> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
