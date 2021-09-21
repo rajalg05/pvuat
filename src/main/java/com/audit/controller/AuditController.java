@@ -56,7 +56,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/audit")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8085","http://150.242.14.192:8085/","http://www.stockauditnow.com"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8085","http://150.242.14.192:8085/","http://www.stockauditnow.com","http://stockauditnow.com"})
 @Transactional
 public class AuditController {
 
