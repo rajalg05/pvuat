@@ -50,6 +50,7 @@ import com.audit.repository.UserRepository;
 import com.audit.service.FilesStorageService;
 import com.audit.utils.PvUtils;
 import com.google.gson.Gson;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -109,7 +110,7 @@ public class AuditController {
 			user.setComments("Login successful");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} else {
-			throw new UnAuthedException("Username and/or Password incorrect");
+			throw new UnAutherizedException("Username and/or Password incorrect");
 		}
 	}
 
