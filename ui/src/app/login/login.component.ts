@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
+            this.router.navigate(['/resources']);
         }
     }
 
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .subscribe(
                 data => {
                     console.log('data = ', data);
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate(['/resources']);
                     this.loading = false;
                 },
                 error => {

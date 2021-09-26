@@ -163,6 +163,11 @@ export class ResourceComponent implements OnInit {
 
   handleChange(e) {
     this.resetTabIndexAndSelectActiveTab(e.index);
+    console.log(e)
+    // if(e.index === this.items.length){
+    //   this.addTab();
+    //   this.selectedTabIndex = this.items.length - 1
+    // }
   }
 
   resetTabIndexAndSelectActiveTab(index: any) {

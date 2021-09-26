@@ -21,11 +21,16 @@
 </div> -->
 <button pButton (click)="addTab()" label="+" type="button" class="p-button-outlined p-button-rounded"></button>
 
-<p-tabView [controlClose]="true" (onClose)="handleClose($event)" (onChange)="handleChange($event)" >
+<p-tabView [controlClose]="true" (onClose)="handleClose($event)" (onChange)="handleChange($event)" [(activeIndex)]="selectedTabIndex">
     <p-tabPanel [closable]="true" [header]="item.header" *ngFor="let item of items; let i = index" [selected]="i == selectedTabIndex">
         <app-resource-view *ngIf="i == 0" (openExistingResourceTabEmitter)="openExistingResourceTab($event)" [resource]="resource"></app-resource-view>
         <app-resource-form (tabNameChangeEmit)="tabNameChangeEmit($event)" *ngIf="i != 0" [resource]="resource"></app-resource-form>
     </p-tabPanel>
+    <!-- <p-tabPanel id="addTab">
+        <ng-template pTemplate="header">
+            <i class="fa fa-plus" (click)="addTab()"></i>
+        </ng-template>
+    </p-tabPanel> -->
 </p-tabView>
 
 <!-- <div class="card">

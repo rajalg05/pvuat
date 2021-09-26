@@ -1,24 +1,39 @@
-<!-- nav -->
-<nav class="navbar navbar-expand " *ngIf="currentUser">
-    <div class="navbar-nav">
-        <app-core></app-core>
-        <a class="nav-item nav-link" (click)="logout()"><i class="fa fa-sign-out" style="font-size:48px;color:red"></i></a>
+
+
+<nav class="navbar navbar-expand navbar-dark bg-primary"> 
+    <a (click)="toggled = !toggled"  [class.invisible]="!currentUser" id="menu-toggle" class="navbar-brand">
+        <span class="navbar-toggler-icon"></span>
+    </a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav ml-auto" *ngIf="currentUser">
+            
+        <a class="nav-item nav-link" (click)="logout()"><i class="fa fa-2x fa-sign-out" ></i></a>
+        </ul>
+        <form class="form-inline my-2 my-md-0"> </form>
     </div>
 </nav>
-
-<!-- main app container -->
-<div class="jumbotron" *ngIf="!currentUser">
-    <div class="container">
-        <div class="row">
-            <!-- <div class="col-sm-6 offset-sm-3"> -->
-                <alert></alert>
+<div id="wrapper" [class.toggled]="toggled">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li> <a routerLink="resources">Resources</a> </li>
+            <li> <a routerLink="auditAllocation">Audit Allocation</a> </li>
+            <li> <a routerLink="dashboard">Dashboard</a> </li>
+            <li> <a routerLink="jobs">Jobs</a> </li>
+            <li> <a routerLink="associates">Associates</a> </li>
+            <li> <a routerLink="auditStatus">Audit Status</a> </li>
+            <li> <a routerLink="mis">MIS Report</a> </li>
+            <li> <a routerLink="costSheet">Cost sheet</a> </li>
+        </ul>
+    </div> <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <!-- <app-core></app-core> -->
+            <alert></alert>
                 <router-outlet></router-outlet>
-            <!-- </div> -->
         </div>
-    </div>
-</div>
-<!-- <div  *ngIf="currentUser">
-    <app-core></app-core>
-</div> -->
-
+    </div> <!-- /#page-content-wrapper -->
+</div> <!-- /#wrapper -->
 
