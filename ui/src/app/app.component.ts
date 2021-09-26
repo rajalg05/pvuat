@@ -13,7 +13,7 @@ import { AuthenticationService } from './service/authentication.service';
 })
 export class AppComponent implements OnInit {
   title = 'pv';
-  
+  toggled = false;
   currentUser: User;
 
     constructor(
@@ -29,5 +29,20 @@ export class AppComponent implements OnInit {
         this.authenticationService.logout();
         this.router.navigate(['/login']);
     }
+
+    // $(function(){
+    //   $("#menu-toggle").click(function(e) {
+    //       e.preventDefault();
+    //       $("#wrapper").toggleClass("toggled");
+    //   });
+
+    //   $(window).resize(function(e) {
+    //     if($(window).width()<=768){
+    //       $("#wrapper").removeClass("toggled");
+    //     }else{
+    //       $("#wrapper").addClass("toggled");
+    //     }
+    //   });
+    // });
   
 }
